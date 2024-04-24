@@ -37,18 +37,9 @@ const Main = () => {
   return (
     <View style={styles.container}>
       {location && (
-        <TouchableOpacity
-          style={[styles.buttonView]}
-          onPress={() => toggleMap()}
-          activeOpacity={0.4}
-        >
+        <TouchableOpacity style={styles.buttonView} onPress={() => toggleMap()} activeOpacity={0.4}>
           <Image
-            style={[
-              styles.buttonImage,
-              showMap && {
-                transform: [{ rotate: "180deg" }],
-              },
-            ]}
+            style={[styles.buttonImage, showMap && styles.buttonImageShowMenu]}
             source={require("../../assets/down-arrow.png")}
           />
         </TouchableOpacity>
@@ -80,12 +71,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     zIndex: 10,
   },
-  buttonViewShowMenu: {},
   buttonImage: {
     width: 40,
     height: 40,
-    marginHorizontal: 20,
-    marginBottom: 20,
   },
   buttonImageShowMenu: {
     transform: [{ rotate: "180deg" }],

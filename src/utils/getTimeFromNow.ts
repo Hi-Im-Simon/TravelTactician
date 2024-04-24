@@ -7,9 +7,10 @@ export const getTimeFromNow = (weather: WeatherData, selectedDay: number): strin
   const thisDate = dateToUserTimeZone(weather.hourly.time[selectedDay]);
   const currentDate = DateTime.local();
   const currentDateString = `${currentDate.toFormat("yyyy-MM-dd")}T${currentDate.toFormat(
-    "hh:mm"
+    "HH:mm"
   )}`;
   const currentDateFixed = dateToUserTimeZone(currentDateString, false);
+
   let daysFromNow = thisDate.diff(currentDateFixed, ["days"]).as("days");
   let hoursFromNow = thisDate.diff(currentDateFixed, ["hours"]).as("hours");
   let minutesFromNow = thisDate.diff(currentDateFixed, ["minutes"]).as("minutes");
