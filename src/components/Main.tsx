@@ -37,7 +37,11 @@ const Main = () => {
   return (
     <View style={styles.container}>
       {location && (
-        <TouchableOpacity style={[styles.buttonView]} onPress={() => toggleMap()} activeOpacity={0.4}>
+        <TouchableOpacity
+          style={[styles.buttonView]}
+          onPress={() => toggleMap()}
+          activeOpacity={0.4}
+        >
           <Image
             style={[
               styles.buttonImage,

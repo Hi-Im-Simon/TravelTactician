@@ -57,7 +57,7 @@ const MapScreen = ({ location, setLocation }: Props) => {
       {/* menu */}
       <View style={styles.dropdownMenu}>
         <Button
-          style={styles.dropdownMenuEdgeItem}
+          style={[styles.dropdownMenuItem, styles.dropdownMenuEdgeItem]}
           onPress={async () => {
             const curL = await getLocation();
             setSelectedLocation((old) => ({ ...old, ...curL }));
@@ -67,19 +67,19 @@ const MapScreen = ({ location, setLocation }: Props) => {
               longitudeDelta: DEFAULT_ZOOM_WITH_LOCATION,
             });
           }}
-          mode="contained-tonal"
+          mode="elevated"
           disabled={!locationPermission}
         >
           <Icon source="map-marker-outline" size={24} />
         </Button>
         <Button
-          labelStyle={{ fontSize: 18 }}
+          labelStyle={{ fontSize: 20, color: "#000" }}
           style={styles.dropdownMenuItem}
           onPress={() => {
             setLocation(selectedLocation);
             toggleMap(false);
           }}
-          mode="contained-tonal"
+          mode="elevated"
           disabled={!selectedLocation}
         >
           Confirm
@@ -104,17 +104,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    padding: 5,
+    padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 2,
+    gap: 1,
     zIndex: 10,
-  },
-  dropdownMenuEdgeItem: {
-    width: 80,
   },
   dropdownMenuItem: {
     width: 150,
+    justifyContent: "center",
+    height: 50,
+  },
+  dropdownMenuEdgeItem: {
+    width: 80,
   },
 });
 

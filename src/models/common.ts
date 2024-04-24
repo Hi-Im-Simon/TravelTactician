@@ -1,8 +1,8 @@
 export interface LocationCoords {
   latitude: number;
   longitude: number;
-  latitudeDelta?: number;
-  longitudeDelta?: number;
+  // latitudeDelta?: number;
+  // longitudeDelta?: number;
 }
 
 export type SetState<T extends unknown> = {

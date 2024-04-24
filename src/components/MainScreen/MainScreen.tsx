@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { useState } from "react";
+import { View } from "react-native";
 
 import { LocationCoords } from "../../models/common";
 import { getWeather } from "../../utils/getWeather";
@@ -13,15 +13,14 @@ interface Props {
 const MainScreen = ({ location }: Props) => {
   const [weather, setWeather] = useState<WeatherData | undefined>();
 
-  const fetchWeather = async () => getWeather(location).then(setWeather);
-
-  useEffect(() => {
-    fetchWeather();
-  }, [location]);
-
   return (
     <View>
-      <WeatherPanel weather={weather} fetchWeather={fetchWeather} />
+      <WeatherPanel
+        selectedHour={0}
+        location={location}
+        weather={weather}
+        fetchWeather={async () => getWeather(location).then(setWeather)}
+      />
     </View>
   );
 };
