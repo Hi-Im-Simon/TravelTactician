@@ -1,93 +1,91 @@
 import { useEffect, useState } from "react";
-import { Alert, Button, Linking, Pressable, Text } from "react-native";
-import {
-  LocationObjectCoords,
-  getCurrentPositionAsync,
-  requestForegroundPermissionsAsync,
-} from "expo-location";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { requestForegroundPermissionsAsync } from "expo-location";
+
+import MainScreen from "./MainScreen/MainScreen";
+import { LocationCoords } from "../models/common";
+import MapScreen from "./MapScreen/MapScreen";
+import { getLocation } from "../utils/getLocation";
+import { useLocationStore, useMapStore } from "../utils/zustand";
 
 const Main = () => {
-  const [userLocationPermission, setUserLocationPermission] = useState(false);
-  // actual location, only changed on app init or when user sets it
-  const [userLocation, setUserLocation] = useState<LocationObjectCoords | null>(
-    null
-  );
-  // temp location, buf between getLocation without setting and Map component init
-  const [mapRefreshLocation, setMapRefreshLocation] =
-    useState<LocationObjectCoords | null>(null);
+  const { locationPermission, setLocationPermission } = useLocationStore();
+  const { showMap, toggleMap } = useMapStore();
+  // user's chosen location (automatically detected or selected on the map)
+  const [location, setLocation] = useState<LocationCoords | undefined>(undefined);
 
-  const getLocation = async (set: boolean = false) => {
-    const retryGetLocation = async (set: boolean) => {
-      getCurrentPositionAsync().then((loc) => {
-        if (loc !== null) {
-          if (set) {
-            setUserLocation(loc.coords);
-          } else {
-            setMapRefreshLocation(loc.coords);
-          }
-        } else {
-          setTimeout(() => retryGetLocation(set), 500);
-        }
-      });
-    };
-
+  const tryGetLocationPermission = async () => {
     try {
       // ask for location permission
-      let locationStatus = await requestForegroundPermissionsAsync();
-
-      // check if user granted the permission
+      const locationStatus = await requestForegroundPermissionsAsync();
+      setLocationPermission(locationStatus.granted);
       if (locationStatus.granted) {
-        // if they did, proceed to get user's location
-        setUserLocationPermission(true);
-        retryGetLocation(set);
+        getLocation().then(setLocation);
       } else {
-        // if not, try to get it again
-        setUserLocationPermission(false);
-
-        // if can't ask again, ask the user to enable it manually
-        // and ask for permission again in 5 seconds
-        if (!locationStatus.canAskAgain) {
-          Alert.alert(
-            "Location Permission Required",
-            "Please enable location permission in your device settings to use this app.",
-            [
-              { text: "Cancel", style: "cancel" },
-              {
-                text: "Open Settings",
-                onPress: () => {
-                  Linking.openSettings();
-                  setTimeout(getLocation, 5000);
-                },
-              },
-            ]
-          );
-        }
-        // if can ask again, prompt user again
-        else {
-          getLocation();
-        }
+        toggleMap(true);
       }
     } catch (error) {
-      Alert.alert(`Error: ${error}`);
+      setLocationPermission(false);
+      console.error(`Error: ${error}`);
     }
   };
 
   useEffect(() => {
-    getLocation(true);
+    tryGetLocationPermission();
   }, []);
 
   return (
-    <>
-      <Pressable>
-        <Text>XDEEEEEEEEEE</Text>
-      </Pressable>
-      <Text>meh</Text>
-
-      <Text>
-        {userLocation?.latitude} {userLocation?.longitude}
-      </Text>
-    </>
+    <View style={styles.container}>
+      {location && (
+        <TouchableOpacity style={[styles.buttonView]} onPress={() => toggleMap()} activeOpacity={0.4}>
+          <Image
+            style={[
+              styles.buttonImage,
+              showMap && {
+                transform: [{ rotate: "180deg" }],
+              },
+            ]}
+            source={require("../../assets/down-arrow.png")}
+          />
+        </TouchableOpacity>
+      )}
+      {showMap ? (
+        <MapScreen location={location} setLocation={setLocation} />
+      ) : location ? (
+        <MainScreen location={location} />
+      ) : (
+        locationPermission === true && (
+          <View style={styles.part}>
+            <Text>Finding your location...</Text>
+            <Text>Make sure device's location is enabled.</Text>
+          </View>
+        )
+      )}
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {},
+  part: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonView: {
+    position: "absolute",
+    alignSelf: "center",
+    zIndex: 10,
+  },
+  buttonViewShowMenu: {},
+  buttonImage: {
+    width: 40,
+    height: 40,
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  buttonImageShowMenu: {
+    transform: [{ rotate: "180deg" }],
+  },
+});
 
 export default Main;
