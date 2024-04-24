@@ -1,0 +1,26 @@
+import { ImageSourcePropType } from "react-native";
+
+export const backgrounds: { [key: string]: ImageSourcePropType } = {
+  day_0: require("./day-0.png"),
+  day_1: require("./day-1.png"),
+  day_2: require("./day-2.png"),
+  day_3: require("./day-3.png"),
+  day_45: require("./day-45.png"),
+  day_51: require("./day-51.png"),
+  day_71: require("./day-71.png"),
+  day_77: require("./day-77.png"),
+  day_80: require("./day-80.png"),
+  day_85: require("./day-85.png"),
+  day_95: require("./day-95.png"),
+  night_0: require("./night-0.png"),
+  night_1: require("./night-1.png"),
+  night_2: require("./night-2.png"),
+  night_3: require("./night-3.png"),
+  night_45: require("./night-45.png"),
+  night_51: require("./night-51.png"),
+  night_71: require("./night-71.png"),
+  night_77: require("./night-77.png"),
+  night_80: require("./night-80.png"),
+  night_85: require("./night-85.png"),
+  night_95: require("./night-95.png"),
+};
