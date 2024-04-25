@@ -4,8 +4,8 @@ import { View } from "react-native";
 import { LocationCoords } from "../../models/common";
 import { getWeather } from "../../utils/getWeather";
 import { WeatherData } from "../../models/openmeteo";
-import WeatherPanel from "./WeatherPanel/WeatherPanel";
-import TimeSelection from "./TimeSelection/TimeSelection";
+import TimeSelectionPanel from "./WeatherPanel/WeatherPanel";
+import TimeSelection from "./TimeSelectionPanel/TimeSelectionPanel";
 import { Text } from "react-native-paper";
 
 interface Props {
@@ -26,7 +26,7 @@ const MainScreen = ({ location }: Props) => {
     <View>
       {weather && (
         <>
-          <WeatherPanel weather={weather} selectedHour={selectedHour} />
+          <TimeSelectionPanel weather={weather} selectedHour={selectedHour} />
           <TimeSelection
             weather={weather}
             selectedHour={selectedHour}
