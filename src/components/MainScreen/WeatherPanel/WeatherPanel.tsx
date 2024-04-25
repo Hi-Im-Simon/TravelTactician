@@ -11,7 +11,7 @@ interface Props {
   selectedHour: number;
 }
 
-const WeatherPanel = ({ weather, selectedHour }: Props) => {
+const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
   const [selectedDay, setSelectedDay] = useState<number>(0);
 
   useEffect(() => {
@@ -183,4 +183,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WeatherPanel;
+export default TimeSelectionPanel;
