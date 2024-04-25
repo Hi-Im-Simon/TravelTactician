@@ -37,10 +37,16 @@ const MainScreen = ({ location }: Props) => {
 
       {weather && (
         <>
+          <Text>
+            location: {weather.latitude}, {weather.longitude}
+          </Text>
           <Text>timezone: {weather.timezone}</Text>
           <Text>timezone_abbreviation: {weather.timezone_abbreviation}</Text>
           <Text>utc_offset_seconds: {weather.utc_offset_seconds}</Text>
           <Text>current_weather.time: {weather.current_weather.time}</Text>
+          <Text> </Text>
+          <Text>daily.sunrise: {weather.daily.sunrise[Math.floor(selectedHour / 24)]}</Text>
+          <Text>daily.sunset: {weather.daily.sunset[Math.floor(selectedHour / 24)]}</Text>
         </>
       )}
     </View>
