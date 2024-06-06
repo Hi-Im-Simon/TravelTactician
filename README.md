@@ -5,3 +5,7 @@
 - ./android -> create file _local.properties_ -> paste _sdk.dir=C:\\Users\\{USERNAME}\\AppData\\Local\\Android\\Sdk_
 - `set GOOGLE_MAPS_API_KEY={API_KEY}` where the API_KEY is the key received from https://console.cloud.google.com/
 - `npx expo run:android` (_--device_ flag if more than one device is connected)
+
+# Installing the app on a device
+
+- `eas build -p android --profile preview`

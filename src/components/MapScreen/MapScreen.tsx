@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
-import MapView, { Marker, MapPressEvent, PoiClickEvent } from "react-native-maps";
+import MapView, { Marker, MapPressEvent, PoiClickEvent, PROVIDER_GOOGLE } from "react-native-maps";
 import { Button, Icon } from "react-native-paper";
 
 import { LocationCoords } from "../../models/common";
@@ -49,6 +49,7 @@ const MapScreen = ({ location, setLocation }: Props) => {
         }}
         onPress={handleMapClick}
         onPoiClick={handleMapClick}
+        provider={PROVIDER_GOOGLE}
       >
         {/* marker */}
         {selectedLocation && <Marker coordinate={selectedLocation} />}

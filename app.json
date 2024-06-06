@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -22,7 +20,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hiimsimon.TravelTactician"
+      "package": "com.hiimsimon.TravelTactician",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCf5k040WYoLKkr5vjJeHV_Gc8zCnjHndo"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
