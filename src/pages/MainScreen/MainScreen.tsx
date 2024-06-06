@@ -7,24 +7,35 @@ import { getWeather } from "../../utils/getWeather";
 import { WeatherData } from "../../models/openmeteo";
 import TimeSelectionPanel from "./WeatherPanel/WeatherPanel";
 import TimeSelection from "./TimeSelectionPanel/TimeSelectionPanel";
+import { useLoadingStore, useMapStore } from "../../utils/zustand";
 
 interface Props {
   location: LocationCoords;
 }
 
 const MainScreen = ({ location }: Props) => {
+  const { showMap } = useMapStore();
+  const { setInfo } = useLoadingStore();
   const [weather, setWeather] = useState<WeatherData | undefined>();
   const [selectedHour, setSelectedHour] = useState(0);
 
-  const fetchWeather = async () => getWeather(location).then(setWeather);
+  const fetchWeather = async () => {
+    setInfo({
+      loading: true,
+      mainText: "Loading location's data...",
+    });
+    setWeather(await getWeather(location));
+    setInfo({ loading: false });
+  };
 
   useEffect(() => {
+    setWeather(undefined);
     fetchWeather();
-  }, [location]);
+  }, [location.latitude, location.longitude]);
 
   return (
-    <View>
-      {weather && (
+    <View style={{ display: showMap ? "none" : "flex" }}>
+      {weather ? (
         <>
           <TimeSelectionPanel weather={weather} selectedHour={selectedHour} />
           <TimeSelection
@@ -32,11 +43,7 @@ const MainScreen = ({ location }: Props) => {
             selectedHour={selectedHour}
             setSelectedHour={setSelectedHour}
           />
-        </>
-      )}
 
-      {weather && (
-        <>
           <Text>
             location: {weather.latitude}, {weather.longitude}
           </Text>
@@ -48,7 +55,7 @@ const MainScreen = ({ location }: Props) => {
           <Text>daily.sunrise: {weather.daily.sunrise[Math.floor(selectedHour / 24)]}</Text>
           <Text>daily.sunset: {weather.daily.sunset[Math.floor(selectedHour / 24)]}</Text>
         </>
-      )}
+      ) : null}
     </View>
   );
 };

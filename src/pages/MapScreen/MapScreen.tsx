@@ -28,9 +28,6 @@ const MapScreen = ({ location, setLocation }: Props) => {
     setSelectedLocation(e.nativeEvent.coordinate);
   };
 
-  console.log(selectedLocation);
-  console.log(location);
-
   return (
     <View
       style={[
@@ -79,12 +76,14 @@ const MapScreen = ({ location, setLocation }: Props) => {
           style={[styles.dropdownMenuItem, styles.dropdownMenuEdgeItem]}
           onPress={async () => {
             const curL = await getLocation();
-            setSelectedLocation((old) => ({ ...old, ...curL }));
-            mapRef.current?.animateToRegion({
-              ...curL,
-              latitudeDelta: DEFAULT_ZOOM_WITH_LOCATION,
-              longitudeDelta: DEFAULT_ZOOM_WITH_LOCATION,
-            });
+            if (curL) {
+              setSelectedLocation((old) => ({ ...old, ...curL }));
+              mapRef.current?.animateToRegion({
+                ...curL,
+                latitudeDelta: DEFAULT_ZOOM_WITH_LOCATION,
+                longitudeDelta: DEFAULT_ZOOM_WITH_LOCATION,
+              });
+            }
           }}
           mode="elevated"
           disabled={!locationPermission}

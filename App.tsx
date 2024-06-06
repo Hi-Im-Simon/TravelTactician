@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PaperProvider } from "react-native-paper";
 
-import Main from "./src/components/Main";
+import Main from "./src/pages/Main";
 
 const App = () => {
   return (

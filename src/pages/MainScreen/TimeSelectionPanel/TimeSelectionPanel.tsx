@@ -25,7 +25,8 @@ const TimeSelection = ({ weather, selectedHour, setSelectedHour }: Props) => {
 
   useEffect(() => {
     const currentHourGMT = new Date(weather.current_weather.time).getHours();
-    scrollToCell(currentHourGMT, false);
+    // timeout to prevent scrollToCell from being called before the component is rendered
+    setTimeout(() => scrollToCell(currentHourGMT, false), 0);
   }, []);
 
   return (
@@ -44,8 +45,6 @@ const TimeSelection = ({ weather, selectedHour, setSelectedHour }: Props) => {
       <ScrollView
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
-        horizontal
-        pagingEnabled
         snapToOffsets={[...Array(weather.hourly.time.length)].map((_, i) => i * styles.cell.width)}
         snapToAlignment="start"
         contentContainerStyle={{
@@ -55,6 +54,8 @@ const TimeSelection = ({ weather, selectedHour, setSelectedHour }: Props) => {
           // when scrolling stops, calculated which element will be displayed
           (e) => setSelectedHour(Math.round(e.nativeEvent.contentOffset.x / styles.cell.width))
         }
+        horizontal
+        pagingEnabled
       >
         {weather.hourly.time.map((_, i) => {
           if (weather.hourly.temperature_2m[i] !== null && weather.hourly.weathercode[i] !== null) {

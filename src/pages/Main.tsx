@@ -6,10 +6,12 @@ import MainScreen from "./MainScreen/MainScreen";
 import { LocationCoords } from "../models/common";
 import MapScreen from "./MapScreen/MapScreen";
 import { getLocation } from "../utils/getLocation";
-import { useLocationStore, useMapStore } from "../utils/zustand";
+import { useLoadingStore, useLocationStore, useMapStore } from "../utils/zustand";
+import LoadingScreen from "./LoadingScreen/LoadingScreen";
 
 const Main = () => {
-  const { locationPermission, setLocationPermission } = useLocationStore();
+  const { setLocationPermission } = useLocationStore();
+  const { setInfo } = useLoadingStore();
   const { showMap, toggleMap } = useMapStore();
   // user's chosen location (automatically detected or selected on the map)
   const [location, setLocation] = useState<LocationCoords | undefined>(undefined);
@@ -17,16 +19,22 @@ const Main = () => {
   const tryGetLocationPermission = async () => {
     try {
       // ask for location permission
+      setInfo({ loading: true });
       const locationStatus = await requestForegroundPermissionsAsync();
       setLocationPermission(locationStatus.granted);
       if (locationStatus.granted) {
-        getLocation().then(setLocation);
+        const loc = await getLocation();
+        if (loc) {
+          setLocation(loc);
+        } else {
+          toggleMap(true);
+        }
       } else {
         toggleMap(true);
       }
+      setInfo({ loading: false });
     } catch (error) {
-      setLocationPermission(false);
-      console.error(`Error: ${error}`);
+      console.error(error);
     }
   };
 
@@ -44,24 +52,20 @@ const Main = () => {
           />
         </TouchableOpacity>
       )}
-      {showMap ? (
-        <MapScreen location={location} setLocation={setLocation} />
-      ) : location ? (
-        <MainScreen location={location} />
-      ) : (
-        locationPermission === true && (
-          <View style={styles.part}>
-            <Text>Finding your location...</Text>
-            <Text>Make sure device's location is enabled.</Text>
-          </View>
-        )
-      )}
+
+      {showMap && <MapScreen location={location} setLocation={setLocation} />}
+
+      {location && <MainScreen location={location} />}
+
+      <LoadingScreen />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    height: "100%",
+  },
   part: {
     alignItems: "center",
     justifyContent: "center",
