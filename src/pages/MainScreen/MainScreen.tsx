@@ -18,6 +18,7 @@ const MainScreen = ({ location }: Props) => {
   const { setInfo } = useLoadingStore();
   const [weather, setWeather] = useState<WeatherData | undefined>();
   const [selectedHour, setSelectedHour] = useState(0);
+  const [selectedLength, setSelectedLength] = useState(0);
 
   const fetchWeather = async () => {
     setInfo({
@@ -42,6 +43,8 @@ const MainScreen = ({ location }: Props) => {
             weather={weather}
             selectedHour={selectedHour}
             setSelectedHour={setSelectedHour}
+            selectedLength={selectedLength}
+            setSelectedLength={setSelectedLength}
           />
 
           <Text>

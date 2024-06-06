@@ -8,9 +8,8 @@
 # Installing the app on a device
 
 - https://expo.dev/accounts/{EXPO_USERNAME}/projects/{PROJECT_NAME}/builds/{PROJECT_ID}
--
 
 # Creating a new build
 
 - `eas build -p android --profile preview` (might take a long time)
-- download the application from generated link
+- download the application from the generated link
