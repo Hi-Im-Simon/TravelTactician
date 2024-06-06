@@ -28,6 +28,9 @@ const MapScreen = ({ location, setLocation }: Props) => {
     setSelectedLocation(e.nativeEvent.coordinate);
   };
 
+  console.log(selectedLocation);
+  console.log(location);
+
   return (
     <View
       style={[
@@ -57,6 +60,21 @@ const MapScreen = ({ location, setLocation }: Props) => {
 
       {/* menu */}
       <View style={styles.dropdownMenu}>
+        <View style={styles.dropdownMenuEdgeItem}></View>
+
+        <Button
+          labelStyle={{ fontSize: 20 }}
+          style={styles.dropdownMenuItem}
+          onPress={() => {
+            setLocation(selectedLocation);
+            toggleMap(false);
+          }}
+          mode="elevated"
+          disabled={!selectedLocation}
+        >
+          Confirm
+        </Button>
+
         <Button
           style={[styles.dropdownMenuItem, styles.dropdownMenuEdgeItem]}
           onPress={async () => {
@@ -73,19 +91,6 @@ const MapScreen = ({ location, setLocation }: Props) => {
         >
           <Icon source="map-marker-outline" size={24} />
         </Button>
-        <Button
-          labelStyle={{ fontSize: 20, color: "#000" }}
-          style={styles.dropdownMenuItem}
-          onPress={() => {
-            setLocation(selectedLocation);
-            toggleMap(false);
-          }}
-          mode="elevated"
-          disabled={!selectedLocation}
-        >
-          Confirm
-        </Button>
-        <View style={styles.dropdownMenuEdgeItem}></View>
       </View>
     </View>
   );

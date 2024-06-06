@@ -1,21 +1,19 @@
 import { DateTime } from "luxon";
 
-const dateToUserTimeZone = (
-  dateString: string,
-  addZone: boolean = true
-): DateTime => {
+const dateToUserTimeZone = (dateString: string, addZone: boolean = true): DateTime | undefined => {
   let tzOffsetString = "";
   if (addZone) {
     const tzOff = new Date().getTimezoneOffset() / 60;
-    tzOffsetString = `${tzOff < 0 ? "-" : "+"}${
-      Math.abs(tzOff) < 10 ? "0" : ""
-    }${Math.abs(tzOff)}:00`;
+    tzOffsetString = `${tzOff < 0 ? "-" : "+"}${Math.abs(tzOff) < 10 ? "0" : ""}${Math.abs(
+      tzOff
+    )}:00`;
   }
 
   const convertedDate = DateTime.fromISO(`${dateString}${tzOffsetString}`, {
     zone: "GMT",
   });
-  return convertedDate;
+
+  return convertedDate ?? undefined;
 };
 
 export default dateToUserTimeZone;

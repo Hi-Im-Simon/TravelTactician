@@ -17,7 +17,7 @@ interface Props {
 }
 
 const TimeSelectionCell = (props: Props) => {
-  const [rawDate, setRawDate] = useState<DateTime | null>(null);
+  const [rawDate, setRawDate] = useState<DateTime | undefined>();
 
   useEffect(() => {
     setRawDate(dateToUserTimeZone(props.time));
@@ -32,16 +32,10 @@ const TimeSelectionCell = (props: Props) => {
         props.isCurrentCell && styles.ifCurrentCellContainer,
       ]}
     >
-      {(rawDate?.hour === 0 || props.cellId === 0 || props.isCurrentCell) && (
+      {(rawDate?.hour === 0 || props.cellId === 0) && (
         <Text style={props.isCurrentCell && styles.ifCurrentCellTitleText}>
           {/* day of week */}
           {rawDate?.toFormat("EEEE")}
-        </Text>
-      )}
-      {(rawDate?.hour === 0 || props.cellId === 0 || props.isCurrentCell) && (
-        <Text style={props.isCurrentCell && styles.ifCurrentCellText}>
-          {/* date */}
-          {rawDate?.toFormat("dd/MM/yyyy")}
         </Text>
       )}
       <Text style={props.isCurrentCell && styles.ifCurrentCellText}>
@@ -66,6 +60,7 @@ const styles = StyleSheet.create({
   ifCurrentCellContainer: {},
   ifCurrentCellText: {
     fontWeight: "500",
+    fontSize: 15,
   },
   ifCurrentCellTitleText: {
     fontWeight: "bold",

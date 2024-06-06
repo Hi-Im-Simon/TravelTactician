@@ -5,11 +5,16 @@ import dateToUserTimeZone from "./dateToUserTimeZone";
 
 export const getTimeFromNow = (weather: WeatherData, selectedDay: number): string => {
   const thisDate = dateToUserTimeZone(weather.hourly.time[selectedDay]);
+
+  if (!thisDate) return "-";
+
   const currentDate = DateTime.local();
   const currentDateString = `${currentDate.toFormat("yyyy-MM-dd")}T${currentDate.toFormat(
     "HH:mm"
   )}`;
   const currentDateFixed = dateToUserTimeZone(currentDateString, false);
+
+  if (!currentDateFixed) return "-";
 
   let daysFromNow = thisDate.diff(currentDateFixed, ["days"]).as("days");
   let hoursFromNow = thisDate.diff(currentDateFixed, ["hours"]).as("hours");

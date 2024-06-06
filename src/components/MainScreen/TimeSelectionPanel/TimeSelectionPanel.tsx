@@ -82,6 +82,7 @@ const TimeSelection = ({ weather, selectedHour, setSelectedHour }: Props) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    height: 90,
     paddingVertical: 10,
   },
 

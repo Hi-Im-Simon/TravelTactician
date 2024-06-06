@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground } from "react-native";
+import { Text } from "react-native-paper";
 
 import { WeatherData } from "../../../models/openmeteo";
 import dateToUserTimeZone from "../../../utils/dateToUserTimeZone";
@@ -63,14 +64,14 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
 
       <View style={styles.containerCenter}>
         {/* display currently selected date */}
-        <Text style={[styles.text, styles.dayNameText]}>
-          {dateToUserTimeZone(weather.hourly.time[selectedHour]).toFormat("EEEE")}
+        <Text style={[styles.dayNameText, styles.text]}>
+          {dateToUserTimeZone(weather.hourly.time[selectedHour])?.toFormat("EEEE")}
         </Text>
-        <Text style={[styles.text, styles.hourText]}>
-          {dateToUserTimeZone(weather.hourly.time[selectedHour]).toFormat("hh:mm a")}
+        <Text style={[styles.hourText, styles.text]}>
+          {dateToUserTimeZone(weather.hourly.time[selectedHour])?.toFormat("hh:mm a")}
         </Text>
-        <Text style={[styles.text, styles.dateText]}>
-          {dateToUserTimeZone(weather.hourly.time[selectedHour]).toFormat("dd MMM yyyy")}
+        <Text style={[styles.dateText, styles.text]}>
+          {dateToUserTimeZone(weather.hourly.time[selectedHour])?.toFormat("dd MMM yyyy")}
         </Text>
       </View>
 
@@ -92,10 +93,8 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
           <Text style={[styles.dataLeftText, styles.text]}>Sunrise</Text>
 
           <Text style={[styles.dataRightText, styles.text]}>
-            {dateToUserTimeZone(weather.daily.sunrise[selectedDay]).toFormat("hh:mm a") !==
-            "Invalid DateTime"
-              ? dateToUserTimeZone(weather.daily.sunrise[selectedDay]).toFormat("hh:mm a")
-              : "Not available"}
+            {dateToUserTimeZone(weather.daily.sunrise[selectedDay])?.toFormat("hh:mm a") ??
+              "Not available"}
           </Text>
         </View>
 
@@ -104,10 +103,8 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
           <Text style={[styles.dataLeftText, styles.text]}>Sunset</Text>
 
           <Text style={[styles.dataRightText, styles.text]}>
-            {dateToUserTimeZone(weather.daily.sunset[selectedDay]).toFormat("hh:mm a") !==
-            "Invalid DateTime"
-              ? dateToUserTimeZone(weather.daily.sunset[selectedDay]).toFormat("hh:mm a")
-              : "Not available"}
+            {dateToUserTimeZone(weather.daily.sunset[selectedDay])?.toFormat("hh:mm a") ??
+              "Not available"}
           </Text>
         </View>
       </View>
@@ -125,9 +122,9 @@ const styles = StyleSheet.create({
   // basic tags
   text: {
     alignSelf: "stretch",
-    textShadowRadius: 15,
-    textShadowColor: "#000",
+    textShadowRadius: 3,
     color: "#fff",
+    textShadowColor: "#000",
   },
 
   // data pairs

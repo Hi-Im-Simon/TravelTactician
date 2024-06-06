@@ -1,19 +1,13 @@
-import { DateTime } from "luxon";
-
 import { WeatherData } from "../models/openmeteo";
 import { backgrounds } from "../../assets/weather-backgrounds/backgrounds";
+import { isDay } from "./common";
 
 export const getImageOfWeather = (
   weather: WeatherData,
   selectedDay: number,
   selectedHour: number
 ) => {
-  const sunrise = DateTime.fromISO(weather.daily.sunrise[selectedDay]);
-  const sunset = DateTime.fromISO(weather.daily.sunset[selectedDay]);
-  const curTime = DateTime.fromISO(weather.hourly.time[selectedHour]);
-
-  const timeOfDay: string = curTime >= sunrise && sunset >= curTime ? "day" : "night";
-
+  const timeOfDay = isDay(weather, selectedDay, selectedHour) ? "day" : "night";
   let weatherCode: number = weather.hourly.weathercode[selectedHour];
 
   // clear sky
