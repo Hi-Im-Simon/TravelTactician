@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
-import { LoadingStore, LocationStore, MapStore } from "../models/zustand";
+import { LoadingStore, LocationPermissionStore, MapStore } from "../models/zustand";
 import { LoadingInfo } from "../models/common";
 
-export const useLocationStore = create<LocationStore>((set) => ({
+export const useLocationStore = create<LocationPermissionStore>((set) => ({
   locationPermission: undefined,
   setLocationPermission: (locationPermission: boolean) => set({ locationPermission }),
 }));

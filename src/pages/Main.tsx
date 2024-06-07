@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { requestForegroundPermissionsAsync } from "expo-location";
 
 import MainScreen from "./MainScreen/MainScreen";
-import { LocationCoords } from "../models/locationData";
+import { LocationCoords } from "../models/APIs/location";
 import MapScreen from "./MapScreen/MapScreen";
 import { getLocation } from "../utils/APIs/local/getLocation";
 import { useLoadingStore, useLocationStore, useMapStore } from "../utils/zustand";

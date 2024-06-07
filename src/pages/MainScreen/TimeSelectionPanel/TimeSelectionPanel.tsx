@@ -4,7 +4,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { Divider } from "react-native-paper";
 
-import { WeatherData } from "../../../models/openmeteo";
+import { WeatherData } from "../../../models/APIs/openmeteo";
 import TimeSelectionCell from "./TimeSelectionCell";
 import LengthSelection from "./LengthSelection";
 

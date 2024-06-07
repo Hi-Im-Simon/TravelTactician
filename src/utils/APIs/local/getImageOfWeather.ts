@@ -1,4 +1,4 @@
-import { WeatherData } from "../../../models/openmeteo";
+import { WeatherData } from "../../../models/APIs/openmeteo";
 import { backgrounds } from "../../../../assets/weather-backgrounds/backgrounds";
 import { isDayFromWeatherData } from "../../timezone";
 

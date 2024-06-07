@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Text } from "react-native-paper";
 
-import { WeatherData } from "../../../models/openmeteo";
+import { WeatherData } from "../../../models/APIs/openmeteo";
 import { dateToUserTimeZone } from "../../../utils/timezone";
 import { getTimeFromNow } from "../../../utils/timezone";
 import { getImageOfWeather } from "../../../utils/APIs/local/getImageOfWeather";

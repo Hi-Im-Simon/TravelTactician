@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 
-import { WeatherData } from "../models/openmeteo";
+import { WeatherData } from "../models/APIs/openmeteo";
 
 export const getTimeFromNow = (weather: WeatherData, selectedDay: number): string => {
   const thisDate = dateToUserTimeZone(weather.hourly.time[selectedDay]);

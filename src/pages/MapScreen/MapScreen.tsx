@@ -3,7 +3,7 @@ import { StyleSheet, View, useWindowDimensions } from "react-native";
 import MapView, { Marker, MapPressEvent, PoiClickEvent, PROVIDER_GOOGLE } from "react-native-maps";
 import { Button, Icon } from "react-native-paper";
 
-import { LocationCoords } from "../../models/locationData";
+import { LocationCoords } from "../../models/APIs/location";
 import { getLocation } from "../../utils/APIs/local/getLocation";
 import { useLocationStore, useMapStore } from "../../utils/zustand";
 

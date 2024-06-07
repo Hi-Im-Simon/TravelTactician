@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 
-import { LocationCoords } from "../../models/locationData";
+import { LocationCoords } from "../../models/APIs/location";
 import { getWeather } from "../../utils/APIs/external/getWeather";
-import { WeatherData } from "../../models/openmeteo";
+import { WeatherData } from "../../models/APIs/openmeteo";
 import TimeSelectionPanel from "./WeatherPanel/WeatherPanel";
 import TimeSelection from "./TimeSelectionPanel/TimeSelectionPanel";
 import { useLoadingStore, useMapStore } from "../../utils/zustand";

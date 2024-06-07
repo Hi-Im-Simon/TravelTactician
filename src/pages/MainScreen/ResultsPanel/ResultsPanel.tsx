@@ -10,7 +10,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-import { WeatherData } from "../../../models/openmeteo";
+import { WeatherData } from "../../../models/APIs/openmeteo";
 import { dateToUserTimeZone } from "../../../utils/timezone";
 import { Results } from "../../../models/common";
 

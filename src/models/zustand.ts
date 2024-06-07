@@ -1,6 +1,6 @@
 import { LoadingInfo } from "../models/common";
 
-export interface LocationStore {
+export interface LocationPermissionStore {
   locationPermission?: boolean;
   setLocationPermission: (permission: boolean) => void;
 }

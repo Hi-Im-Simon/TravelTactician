@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import Slider from "@react-native-community/slider";
 
-import { WeatherData } from "../../../models/openmeteo";
+import { WeatherData } from "../../../models/APIs/openmeteo";
 import { useMapStore } from "../../../utils/zustand";
 
 const DEFAULT_SLIDER_VALUE = 3;
