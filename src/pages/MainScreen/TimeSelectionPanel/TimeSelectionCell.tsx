@@ -9,8 +9,8 @@ interface Props {
   scrollToCell: (cellId: number, animatedScroll?: boolean) => void;
   isCurrentCell: boolean;
   time: string;
-  temperature: number;
-  apparentTemperature: number;
+  temperature?: number;
+  apparentTemperature?: number;
   temperatureUnits: string;
   windspeedUnits: string;
   cellWidth: number;
@@ -43,8 +43,7 @@ const TimeSelectionCell = (props: Props) => {
         {rawDate?.toFormat("hh:mm a")}
       </Text>
       <Text style={props.isCurrentCell && styles.ifCurrentCellTitleText}>
-        {props.temperature}
-        {props.temperatureUnits}
+        {props.temperature ? `${props.temperature}${props.temperatureUnits}` : "-"}
       </Text>
     </Pressable>
   );

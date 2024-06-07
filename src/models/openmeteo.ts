@@ -30,12 +30,12 @@ export interface WeatherData {
   elevation: number;
   generationtime_ms: number;
   hourly: {
-    apparent_temperature: number[];
+    apparent_temperature: (number | undefined)[];
     precipitation_probability: (number | null)[];
-    temperature_2m: number[];
+    temperature_2m: (number | undefined)[];
     time: string[];
-    weathercode: number[];
-    windspeed_10m: number[];
+    weathercode: (number | undefined)[];
+    windspeed_10m: (number | undefined)[];
   };
   hourly_units: {
     apparent_temperature: string;

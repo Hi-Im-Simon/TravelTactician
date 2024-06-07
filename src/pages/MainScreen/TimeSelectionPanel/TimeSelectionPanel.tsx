@@ -111,8 +111,7 @@ const TimeSelection = ({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 90,
-    paddingVertical: 10,
+    height: 75,
   },
 
   gradient: {

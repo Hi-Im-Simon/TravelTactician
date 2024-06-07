@@ -18,7 +18,7 @@ interface Props {
 const LengthSelection = ({ weather, selectedHour, selectedLength, setSelectedLength }: Props) => {
   const { showMap } = useMapStore();
   const [sliderVal, setSliderVal] = useState<{ [name: string]: number | string }>();
-  const [periodWarningMsg, setPeriodWarningMsg] = useState<string>("");
+  const [periodWarningMsg, setPeriodWarningMsg] = useState<string | false>("");
 
   const handleSliderValue = (i: number, set: boolean = false) => {
     let top = 0;
@@ -96,14 +96,16 @@ const LengthSelection = ({ weather, selectedHour, selectedLength, setSelectedLen
   useEffect(() => {
     const nCells = weather.hourly.weathercode.filter((code) => code !== null).length;
     if (selectedHour + selectedLength > nCells) {
-      const nHours = nCells - selectedHour;
-      const days = Math.floor(nHours / 24);
-      const hours = nHours % 24;
-      setPeriodWarningMsg(
-        `Selected period exceeds available forecast.\nUsing max available (${
-          days ? `${days}d` : ""
-        }${days && hours ? " " : ""}${hours ? `${hours}h` : ""}) instead.`
-      );
+      if (periodWarningMsg !== false) {
+        const nHours = nCells - selectedHour;
+        const days = Math.floor(nHours / 24);
+        const hours = nHours % 24;
+        setPeriodWarningMsg(
+          `Selected period exceeds available forecast.\nUsing max available (${
+            days ? `${days}d` : ""
+          }${days && hours ? " " : ""}${hours ? `${hours}h` : ""}) instead.`
+        );
+      }
     } else {
       setPeriodWarningMsg("");
     }
@@ -142,7 +144,11 @@ const LengthSelection = ({ weather, selectedHour, selectedLength, setSelectedLen
       />
 
       {periodWarningMsg && (
-        <Text style={styles.warningMsg} numberOfLines={2} onPress={() => setPeriodWarningMsg("")}>
+        <Text
+          style={styles.warningMsg}
+          numberOfLines={2}
+          onPress={() => setPeriodWarningMsg(false)}
+        >
           {periodWarningMsg} TAP TO HIDE
         </Text>
       )}
@@ -152,7 +158,7 @@ const LengthSelection = ({ weather, selectedHour, selectedLength, setSelectedLen
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     alignItems: "center",
   },
   sliderTextAll: {

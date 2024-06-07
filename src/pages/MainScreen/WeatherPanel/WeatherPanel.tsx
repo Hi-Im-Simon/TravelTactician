@@ -115,7 +115,7 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 300,
+    height: 240,
     flexDirection: "row",
   },
 
