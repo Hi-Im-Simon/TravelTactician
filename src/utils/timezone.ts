@@ -1,7 +1,6 @@
 import { DateTime } from "luxon";
 
 import { WeatherData } from "../models/openmeteo";
-import dateToUserTimeZone from "./dateToUserTimeZone";
 
 export const getTimeFromNow = (weather: WeatherData, selectedDay: number): string => {
   const thisDate = dateToUserTimeZone(weather.hourly.time[selectedDay]);
@@ -60,4 +59,35 @@ export const getTimeFromNow = (weather: WeatherData, selectedDay: number): strin
   }
 
   return `${prefix}${dd}${hh}${mm}${suffix}`.trim();
+};
+
+export const dateToUserTimeZone = (
+  dateString: string,
+  addZone: boolean = true
+): DateTime | undefined => {
+  let tzOffsetString = "";
+  if (addZone) {
+    const tzOff = new Date().getTimezoneOffset() / 60;
+    tzOffsetString = `${tzOff < 0 ? "-" : "+"}${Math.abs(tzOff) < 10 ? "0" : ""}${Math.abs(
+      tzOff
+    )}:00`;
+  }
+
+  const convertedDate = DateTime.fromISO(`${dateString}${tzOffsetString}`, {
+    zone: "GMT",
+  });
+
+  return convertedDate ?? undefined;
+};
+
+export const isDayFromWeatherData = (
+  weather: WeatherData,
+  selectedDay: number,
+  selectedHour: number
+): boolean => {
+  const sunrise = DateTime.fromISO(weather.daily.sunrise[selectedDay]);
+  const sunset = DateTime.fromISO(weather.daily.sunset[selectedDay]);
+  const curTime = DateTime.fromISO(weather.hourly.time[selectedHour]);
+
+  return curTime >= sunrise && sunset >= curTime;
 };

@@ -1,7 +1,5 @@
-import { fetchWeatherApi } from "openmeteo";
-
-import { LocationCoords } from "../models/common";
-import { WeatherData } from "../models/openmeteo";
+import { LocationCoords } from "../../../models/locationData";
+import { WeatherData } from "../../../models/openmeteo";
 
 export const getWeather = async (location: LocationCoords): Promise<WeatherData | undefined> => {
   const res = await fetch(

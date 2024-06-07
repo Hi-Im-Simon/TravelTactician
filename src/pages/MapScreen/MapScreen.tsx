@@ -3,8 +3,8 @@ import { StyleSheet, View, useWindowDimensions } from "react-native";
 import MapView, { Marker, MapPressEvent, PoiClickEvent, PROVIDER_GOOGLE } from "react-native-maps";
 import { Button, Icon } from "react-native-paper";
 
-import { LocationCoords } from "../../models/common";
-import { getLocation } from "../../utils/getLocation";
+import { LocationCoords } from "../../models/locationData";
+import { getLocation } from "../../utils/APIs/local/getLocation";
 import { useLocationStore, useMapStore } from "../../utils/zustand";
 
 const DEFAULT_ZOOM = 20;

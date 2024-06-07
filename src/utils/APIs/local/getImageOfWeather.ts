@@ -1,14 +1,14 @@
-import { WeatherData } from "../models/openmeteo";
-import { backgrounds } from "../../assets/weather-backgrounds/backgrounds";
-import { isDay } from "./common";
+import { WeatherData } from "../../../models/openmeteo";
+import { backgrounds } from "../../../../assets/weather-backgrounds/backgrounds";
+import { isDayFromWeatherData } from "../../timezone";
 
 export const getImageOfWeather = (
   weather: WeatherData,
   selectedDay: number,
   selectedHour: number
 ) => {
-  const timeOfDay = isDay(weather, selectedDay, selectedHour) ? "day" : "night";
-  let weatherCode: number = weather.hourly.weathercode[selectedHour];
+  const timeOfDay = isDayFromWeatherData(weather, selectedDay, selectedHour) ? "day" : "night";
+  let weatherCode: number = weather.hourly.weathercode[selectedHour] ?? 0;
 
   // clear sky
   if ([0].includes(weatherCode)) {

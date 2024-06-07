@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 
-import { LocationCoords } from "../../models/common";
-import { getWeather } from "../../utils/getWeather";
+import { LocationCoords } from "../../models/locationData";
+import { getWeather } from "../../utils/APIs/external/getWeather";
 import { WeatherData } from "../../models/openmeteo";
 import TimeSelectionPanel from "./WeatherPanel/WeatherPanel";
 import TimeSelection from "./TimeSelectionPanel/TimeSelectionPanel";
@@ -20,18 +20,20 @@ const MainScreen = ({ location }: Props) => {
   const [selectedHour, setSelectedHour] = useState(0);
   const [selectedLength, setSelectedLength] = useState(3);
 
-  const fetchWeather = async () => {
+  const fetchLocationData = async () => {
     setInfo({
       loading: true,
       mainText: "Loading location's data...",
     });
+
     setWeather(await getWeather(location));
+
     setInfo({ loading: false });
   };
 
   useEffect(() => {
     setWeather(undefined);
-    fetchWeather();
+    fetchLocationData();
   }, [location.latitude, location.longitude]);
 
   return (

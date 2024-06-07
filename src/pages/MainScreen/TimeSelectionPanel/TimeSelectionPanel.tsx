@@ -2,10 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import { Divider } from "react-native-paper";
 
 import { WeatherData } from "../../../models/openmeteo";
 import TimeSelectionCell from "./TimeSelectionCell";
-import { Divider } from "react-native-paper";
 import LengthSelection from "./LengthSelection";
 
 interface Props {

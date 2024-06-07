@@ -3,9 +3,9 @@ import { View, StyleSheet, ImageBackground } from "react-native";
 import { Text } from "react-native-paper";
 
 import { WeatherData } from "../../../models/openmeteo";
-import dateToUserTimeZone from "../../../utils/dateToUserTimeZone";
-import { getTimeFromNow } from "../../../utils/getTimeFromNow";
-import { getImageOfWeather } from "../../../utils/getImageOfWeather";
+import { dateToUserTimeZone } from "../../../utils/timezone";
+import { getTimeFromNow } from "../../../utils/timezone";
+import { getImageOfWeather } from "../../../utils/APIs/local/getImageOfWeather";
 
 interface Props {
   weather: WeatherData;

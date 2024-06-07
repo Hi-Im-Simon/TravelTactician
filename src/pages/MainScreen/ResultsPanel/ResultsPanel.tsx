@@ -11,7 +11,7 @@ import {
 } from "@expo/vector-icons";
 
 import { WeatherData } from "../../../models/openmeteo";
-import dateToUserTimeZone from "../../../utils/dateToUserTimeZone";
+import { dateToUserTimeZone } from "../../../utils/timezone";
 import { Results } from "../../../models/common";
 
 interface Props {

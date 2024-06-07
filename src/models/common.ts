@@ -1,10 +1,3 @@
-export interface LocationCoords {
-  latitude: number;
-  longitude: number;
-  latitudeDelta?: number;
-  longitudeDelta?: number;
-}
-
 export interface LoadingInfo {
   loading: boolean;
   mainText?: string;
