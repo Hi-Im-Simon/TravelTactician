@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Text } from "react-native-paper";
 
-import { WeatherData } from "../../../models/APIs/openmeteo";
 import { dateToUserTimeZone } from "../../../utils/timezone";
 import { getTimeFromNow } from "../../../utils/timezone";
 import { getImageOfWeather } from "../../../utils/APIs/local/getImageOfWeather";
+import { LocationData } from "../../../models/locationData";
 
 interface Props {
-  weather: WeatherData;
+  locationData: LocationData;
   selectedHour: number;
 }
 
-const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
+const TimeSelectionPanel = ({ locationData, selectedHour }: Props) => {
   const [selectedDay, setSelectedDay] = useState<number>(0);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
   return (
     <ImageBackground
       style={styles.container}
-      source={getImageOfWeather(weather, selectedDay, selectedHour)}
+      source={getImageOfWeather(locationData.weather, selectedDay, selectedHour)}
     >
       <View style={styles.containerLeft}>
         {/* display currently selected weather data */}
@@ -30,33 +30,33 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
           {/* apparent_temperature */}
           <Text style={[styles.dataLeftText, styles.text]}>Feels like</Text>
           <Text style={[styles.dataRightText, styles.text]}>
-            {weather.hourly.apparent_temperature[selectedHour]}
-            {weather.hourly_units.apparent_temperature}
+            {locationData.weather.hourly.apparent_temperature[selectedHour]}
+            {locationData.weather.hourly_units.apparent_temperature}
           </Text>
         </View>
         <View style={styles.dataPairs}>
           {/* temperature_2m */}
           <Text style={[styles.dataLeftText, styles.text]}>Actual</Text>
           <Text style={[styles.dataRightText, styles.text]}>
-            {weather.hourly.temperature_2m[selectedHour]}
-            {weather.hourly_units.temperature_2m}
+            {locationData.weather.hourly.temperature_2m[selectedHour]}
+            {locationData.weather.hourly_units.temperature_2m}
           </Text>
         </View>
         <View style={styles.dataPairs}>
           {/* windspeed_10m */}
           <Text style={[styles.dataLeftText, styles.text]}>Wind</Text>
           <Text style={[styles.dataRightText, styles.text]}>
-            {weather.hourly.windspeed_10m[selectedHour]}
-            {weather.hourly_units.windspeed_10m}
+            {locationData.weather.hourly.windspeed_10m[selectedHour]}
+            {locationData.weather.hourly_units.windspeed_10m}
           </Text>
         </View>
-        {weather.hourly.precipitation_probability[selectedHour] !== null && (
+        {locationData.weather.hourly.precipitation_probability[selectedHour] !== null && (
           <View style={styles.dataPairs}>
             {/* precipitation_probability */}
             <Text style={[styles.dataLeftText, styles.text]}>Precipitation</Text>
             <Text style={[styles.dataRightText, styles.text]}>
-              {weather.hourly.precipitation_probability[selectedHour]}
-              {weather.hourly_units.precipitation_probability}
+              {locationData.weather.hourly.precipitation_probability[selectedHour]}
+              {locationData.weather.hourly_units.precipitation_probability}
             </Text>
           </View>
         )}
@@ -65,13 +65,15 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
       <View style={styles.containerCenter}>
         {/* display currently selected date */}
         <Text style={[styles.dayNameText, styles.text]}>
-          {dateToUserTimeZone(weather.hourly.time[selectedHour])?.toFormat("EEEE")}
+          {dateToUserTimeZone(locationData.weather.hourly.time[selectedHour])?.toFormat("EEEE")}
         </Text>
         <Text style={[styles.hourText, styles.text]}>
-          {dateToUserTimeZone(weather.hourly.time[selectedHour])?.toFormat("hh:mm a")}
+          {dateToUserTimeZone(locationData.weather.hourly.time[selectedHour])?.toFormat("hh:mm a")}
         </Text>
         <Text style={[styles.dateText, styles.text]}>
-          {dateToUserTimeZone(weather.hourly.time[selectedHour])?.toFormat("dd MMM yyyy")}
+          {dateToUserTimeZone(locationData.weather.hourly.time[selectedHour])?.toFormat(
+            "dd MMM yyyy"
+          )}
         </Text>
       </View>
 
@@ -80,7 +82,7 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
         <View style={styles.dataPairs}>
           <Text style={[styles.dataLeftText, styles.text]}>Due</Text>
           <Text style={[styles.dataRightText, styles.text]}>
-            {getTimeFromNow(weather, selectedHour)}
+            {getTimeFromNow(locationData.weather, selectedHour)}
           </Text>
         </View>
 
@@ -93,8 +95,9 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
           <Text style={[styles.dataLeftText, styles.text]}>Sunrise</Text>
 
           <Text style={[styles.dataRightText, styles.text]}>
-            {dateToUserTimeZone(weather.daily.sunrise[selectedDay])?.toFormat("hh:mm a") ??
-              "Not available"}
+            {dateToUserTimeZone(locationData.weather.daily.sunrise[selectedDay])?.toFormat(
+              "hh:mm a"
+            ) ?? "Not available"}
           </Text>
         </View>
 
@@ -103,8 +106,9 @@ const TimeSelectionPanel = ({ weather, selectedHour }: Props) => {
           <Text style={[styles.dataLeftText, styles.text]}>Sunset</Text>
 
           <Text style={[styles.dataRightText, styles.text]}>
-            {dateToUserTimeZone(weather.daily.sunset[selectedDay])?.toFormat("hh:mm a") ??
-              "Not available"}
+            {dateToUserTimeZone(locationData.weather.daily.sunset[selectedDay])?.toFormat(
+              "hh:mm a"
+            ) ?? "Not available"}
           </Text>
         </View>
       </View>

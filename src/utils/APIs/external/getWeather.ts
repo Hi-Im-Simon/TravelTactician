@@ -1,9 +1,10 @@
 import { LocationCoords } from "../../../models/APIs/location";
 import { WeatherData } from "../../../models/APIs/openmeteo";
 
-export const getWeather = async (location: LocationCoords): Promise<WeatherData | undefined> => {
-  const res = await fetch(
-    `https://api.open-meteo.com/v1/forecast?
+const getWeather = (location: LocationCoords) => {
+  return new Promise<WeatherData>((resolve, reject) => {
+    fetch(
+      `https://api.open-meteo.com/v1/forecast?
     latitude=${location.latitude}&
     longitude=${location.longitude}&
     timezone=GMT&
@@ -12,9 +13,21 @@ export const getWeather = async (location: LocationCoords): Promise<WeatherData 
     daily=sunrise,sunset&
     forecast_days=16
   `.replace(/\s/g, "") // remove spaces
-  );
-
-  if (res.ok) {
-    return await res.json();
-  }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          reject();
+        }
+        return res.json();
+      })
+      .then((json: WeatherData) => {
+        if (!json.current_weather) {
+          reject();
+        }
+        resolve(json);
+      })
+      .catch(reject);
+  });
 };
+
+export default getWeather;

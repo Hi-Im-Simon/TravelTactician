@@ -10,17 +10,17 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-import { WeatherData } from "../../../models/APIs/openmeteo";
 import { dateToUserTimeZone } from "../../../utils/timezone";
 import { Results } from "../../../models/common";
+import { LocationData } from "../../../models/locationData";
 
 interface Props {
-  weather: WeatherData;
+  locationData: LocationData;
   selectedHour: number;
   selectedLength: number;
 }
 
-const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
+const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => {
   const [results, setResults] = useState<Results>();
 
   useEffect(() => {
@@ -41,12 +41,12 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
 
     for (let i: number = selectedHour; i < selectedHour + selectedLength; i++) {
       // iterate over all elements that are supposed to be counted
-      const hour = dateToUserTimeZone(weather.hourly.time[i])?.get("hour");
+      const hour = dateToUserTimeZone(locationData.weather.hourly.time[i])?.get("hour");
 
       if (hour !== undefined && 8 < hour && hour <= 18) {
-        const code = weather.hourly.weathercode[i];
-        const temp = weather.hourly.temperature_2m[i];
-        const wind = weather.hourly.windspeed_10m[i];
+        const code = locationData.weather.hourly.weathercode[i];
+        const temp = locationData.weather.hourly.temperature_2m[i];
+        const wind = locationData.weather.hourly.windspeed_10m[i];
         if (code !== undefined && temp !== undefined && wind !== undefined) {
           nDayHours++;
           weatherCodesDay.add(code);
@@ -56,9 +56,9 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
           maxWindDay = Math.max(maxWindDay, wind);
         }
       } else {
-        const code = weather.hourly.weathercode[i];
-        const temp = weather.hourly.temperature_2m[i];
-        const wind = weather.hourly.windspeed_10m[i];
+        const code = locationData.weather.hourly.weathercode[i];
+        const temp = locationData.weather.hourly.temperature_2m[i];
+        const wind = locationData.weather.hourly.windspeed_10m[i];
         if (code !== undefined && temp !== undefined && wind !== undefined) {
           nNightHours++;
           weatherCodesNight.add(code);
@@ -264,7 +264,7 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
         specificInfo.push(
           <>
             {icon} {text} (min. {minTempDay}
-            {weather.hourly_units.temperature_2m}).
+            {locationData.weather.hourly_units.temperature_2m}).
           </>
         );
     }
@@ -278,7 +278,7 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
         specificInfo.push(
           <>
             {icon} {text} (min. {minTempNight}
-            {weather.hourly_units.temperature_2m}).
+            {locationData.weather.hourly_units.temperature_2m}).
           </>
         );
     }
@@ -292,7 +292,7 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
         specificInfo.push(
           <>
             {icon} {text} (max. {maxTempDay}
-            {weather.hourly_units.temperature_2m}).
+            {locationData.weather.hourly_units.temperature_2m}).
           </>
         );
     }
@@ -307,7 +307,7 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
         specificInfo.push(
           <>
             {icon} {text} (max. {maxWindDay}
-            {weather.hourly_units.windspeed_10m}).
+            {locationData.weather.hourly_units.windspeed_10m}).
           </>
         );
     }
@@ -319,7 +319,7 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
         specificInfo.push(
           <>
             {icon} {text} (max. {maxWindNight}
-            {weather.hourly_units.windspeed_10m}).
+            {locationData.weather.hourly_units.windspeed_10m}).
           </>
         );
     }
@@ -328,7 +328,7 @@ const ResultsPanel = ({ weather, selectedHour, selectedLength }: Props) => {
       basic: basicInfo,
       specific: specificInfo,
     });
-  }, [selectedHour, selectedLength, weather]);
+  }, [selectedHour, selectedLength, locationData.weather]);
 
   return (
     <ScrollView style={styles.container}>

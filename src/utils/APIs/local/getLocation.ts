@@ -1,8 +1,8 @@
 import { getCurrentPositionAsync } from "expo-location";
 import { LocationCoords } from "../../../models/APIs/location";
 
-export const getLocation = async (): Promise<LocationCoords | null> => {
-  return new Promise((resolve, reject) => {
+export const getLocation = () => {
+  return new Promise<LocationCoords | null>((resolve, reject) => {
     getCurrentPositionAsync()
       .then((loc) => {
         if (loc !== null) {

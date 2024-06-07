@@ -3,6 +3,6 @@ import { WeatherData } from "./APIs/openmeteo";
 export interface LocationData {
   latitude: number;
   longitude: number;
-  name: unknown;
+  name?: unknown;
   weather: WeatherData;
 }
