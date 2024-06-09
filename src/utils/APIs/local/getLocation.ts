@@ -1,5 +1,5 @@
 import { getCurrentPositionAsync } from "expo-location";
-import { LocationCoords } from "../../../models/APIs/location";
+import { LocationCoords } from "../../../models/APIs/deviceLocation";
 
 export const getLocation = () => {
   return new Promise<LocationCoords | null>((resolve, reject) => {

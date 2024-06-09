@@ -1,4 +1,4 @@
-import { LocationCoords } from "../../../models/APIs/location";
+import { LocationCoords } from "../../../models/APIs/deviceLocation";
 import { WeatherData } from "../../../models/APIs/openmeteo";
 
 const getWeather = (location: LocationCoords) => {
@@ -17,6 +17,7 @@ const getWeather = (location: LocationCoords) => {
       .then((res) => {
         if (!res.ok) {
           reject();
+          return;
         }
         return res.json();
       })

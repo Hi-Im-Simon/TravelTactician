@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 
-import { LocationCoords } from "../../models/APIs/location";
+import { LocationCoords } from "../../models/APIs/deviceLocation";
 import TimeSelectionPanel from "./WeatherPanel/WeatherPanel";
 import TimeSelection from "./TimeSelectionPanel/TimeSelectionPanel";
 import { useLoadingStore, useMapStore } from "../../utils/zustand";

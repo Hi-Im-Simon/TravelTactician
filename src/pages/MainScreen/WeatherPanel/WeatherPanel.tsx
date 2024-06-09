@@ -64,6 +64,7 @@ const TimeSelectionPanel = ({ locationData, selectedHour }: Props) => {
 
       <View style={styles.containerCenter}>
         {/* display currently selected date */}
+        <Text style={[styles.addressText, styles.text]}>{locationData.address.join(", ")}</Text>
         <Text style={[styles.dayNameText, styles.text]}>
           {dateToUserTimeZone(locationData.weather.hourly.time[selectedHour])?.toFormat("EEEE")}
         </Text>
@@ -159,6 +160,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  addressText: {
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 15,
   },
   dayNameText: {
     fontWeight: "bold",
