@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import { View, StyleSheet, Text } from "react-native";
 import Slider from "@react-native-community/slider";
 
 import { WeatherData } from "../../../models/APIs/openmeteo";

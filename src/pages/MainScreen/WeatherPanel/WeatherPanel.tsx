@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
-import { Text } from "react-native-paper";
+import { View, StyleSheet, ImageBackground, Text } from "react-native";
 
 import { dateToUserTimeZone } from "../../../utils/timezone";
 import { getTimeFromNow } from "../../../utils/timezone";

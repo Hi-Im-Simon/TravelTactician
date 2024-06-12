@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   Fontisto,
@@ -121,7 +120,7 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
     inDays = weatherCodesDay.has(80);
     inNights = weatherCodesNight.has(80);
     if (inDays && inNights) {
-      const text = "There will be huge rains during days and nights. Make some indoor plans.";
+      const text = "There will be huge rains during some days and nights. Make some indoor plans.";
       specificInfo.push(
         <>
           {icon} {text}
@@ -146,7 +145,8 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
       inDays = weatherCodesDay.has(51);
       inNights = weatherCodesNight.has(51);
       if (inDays && inNights) {
-        const text = "It will be raining during days and nights. Make sure to bring an umbrella.";
+        const text =
+          "It will be raining during some days and nights. Make sure to bring an umbrella.";
         specificInfo.push(
           <>
             {icon} {text}
@@ -199,7 +199,7 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
       inDays = weatherCodesDay.has(71);
       inNights = weatherCodesNight.has(71);
       if (inDays && inNights) {
-        const text = "It will be snowing during days and nights. Hope you like winter sports!";
+        const text = "It will be snowing during some days and nights. Hope you like winter sports!";
         specificInfo.push(
           <>
             {icon} {text}
@@ -213,7 +213,7 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
           </>
         );
       } else if (inNights) {
-        const text = "It might be snowing during the nights. Get ready for a white morning.";
+        const text = "It might be snowing during some nights. Get ready for a white morning.";
         specificInfo.push(
           <>
             {icon} {text}
@@ -226,15 +226,14 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
     inDays = weatherCodesDay.has(77);
     inNights = weatherCodesNight.has(77);
     if (inDays) {
-      const text = "There might be snow grain rains! Be careful and try to hide from it.";
+      const text = "There might be snow grain rains! Be careful and seek shelter.";
       specificInfo.push(
         <>
           {icon} {text}
         </>
       );
     } else if (inNights) {
-      const text =
-        "There might be snow grain rains during the nights. Better stay inside when it happens.";
+      const text = "There might be snow grain rains during the nights. Better stay inside.";
       specificInfo.push(
         <>
           {icon} {text}
@@ -284,14 +283,16 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
     }
     // warm
     icon = <Octicons name="sun" size={18} color="black" />;
-    if (hasDays) {
+    if (hasDays || hasNights) {
       let text = "";
-      if (maxTempDay > 32) text = `It will be extremely hot. Drink lots of water and apply lotion!`;
-      else if (maxTempDay > 25) text = `It should be warm outside. Enjoy within reasons.`;
+      if (maxTempDay > 32 || maxTempNight > 32)
+        text = `It will be extremely hot. Drink lots of water and apply lotion!`;
+      else if (maxTempDay > 25 || maxTempNight > 25)
+        text = `It should be warm outside. Enjoy within reasons.`;
       if (text)
         specificInfo.push(
           <>
-            {icon} {text} (max. {maxTempDay}
+            {icon} {text} (max. {maxTempDay > 0 ? maxTempDay : maxTempNight}
             {locationData.weather.hourly_units.temperature_2m}).
           </>
         );
@@ -322,6 +323,11 @@ const ResultsPanel = ({ locationData, selectedHour, selectedLength }: Props) => 
             {locationData.weather.hourly_units.windspeed_10m}).
           </>
         );
+    }
+
+    if (specificInfo.length === 0) {
+      const text = "No tips to show. Seems like the weather will be decent. Enjoy!";
+      specificInfo.push(<>{text}</>);
     }
 
     setResults({

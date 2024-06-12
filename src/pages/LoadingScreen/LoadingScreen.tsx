@@ -1,5 +1,5 @@
-import { View, StyleSheet } from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
+import { View, StyleSheet, Text } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { useLoadingStore } from "../../utils/zustand";
 
 const LoadingScreen = () => {

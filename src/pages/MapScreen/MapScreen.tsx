@@ -1,20 +1,14 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
-import MapView, {
-  Marker,
-  MapPressEvent,
-  PoiClickEvent,
-  PROVIDER_GOOGLE,
-  MapMarker,
-} from "react-native-maps";
-import { Button, Icon, Text } from "react-native-paper";
+import { StyleSheet, View, useWindowDimensions, Text } from "react-native";
+import MapView, { Marker, MapPressEvent, PoiClickEvent, PROVIDER_GOOGLE } from "react-native-maps";
+import { Button } from "react-native-paper";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import { LocationCoords } from "../../models/APIs/deviceLocation";
 import { getLocation } from "../../utils/APIs/local/getLocation";
 import { useLocationStore, useMapStore } from "../../utils/zustand";
 import getLocationAddress from "../../utils/APIs/external/getLocationAddress";
-
-const pin = require("../../../assets/google-maps-marker.webp");
+import { faMapMarkerAlt, faTimes, faStreetView } from "@fortawesome/free-solid-svg-icons";
 
 const DEFAULT_ZOOM = 20;
 const DEFAULT_ZOOM_WITH_LOCATION = 3;
@@ -31,8 +25,8 @@ const MapScreen = ({ location, setLocation }: Props) => {
   const { toggleMap } = useMapStore();
   const [selectedLocation, setSelectedLocation] = useState<LocationCoords | undefined>(location);
   const [address, setAddress] = useState<string[]>();
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const mapRef = useRef<MapView>(null);
-  const markerRef = useRef<MapMarker>(null);
 
   const handleMapClick = (e: MapPressEvent | PoiClickEvent) => {
     e.stopPropagation();
@@ -71,7 +65,7 @@ const MapScreen = ({ location, setLocation }: Props) => {
       >
         {/* marker */}
         {selectedLocation && (
-          <Marker ref={markerRef} coordinate={selectedLocation} tracksViewChanges={false}>
+          <Marker coordinate={selectedLocation} tracksViewChanges={false}>
             <View style={styles.markerArea}>
               {address && (
                 <View style={styles.markerLabelArea}>
@@ -82,7 +76,7 @@ const MapScreen = ({ location, setLocation }: Props) => {
                   ))}
                 </View>
               )}
-              <Image source={pin} style={{ width: 20, height: 33 }} resizeMode="contain" />
+              <FontAwesomeIcon icon={faMapMarkerAlt} color="#e64b3b" size={30} />
             </View>
           </Marker>
         )}
@@ -90,10 +84,17 @@ const MapScreen = ({ location, setLocation }: Props) => {
 
       {/* menu */}
       <View style={styles.menu}>
-        <View style={styles.menuEdgeItem}></View>
+        <Button
+          style={[styles.menuItem, styles.menuEdgeItem]}
+          onPress={() => toggleMap(false)}
+          mode="elevated"
+          disabled={!locationPermission}
+        >
+          <FontAwesomeIcon icon={faTimes} color="black" size={24} />
+        </Button>
 
         <Button
-          labelStyle={{ fontSize: 20 }}
+          labelStyle={styles.confirmButtonLabel}
           style={styles.menuItem}
           onPress={() => {
             setLocation(selectedLocation);
@@ -121,7 +122,7 @@ const MapScreen = ({ location, setLocation }: Props) => {
           mode="elevated"
           disabled={!locationPermission}
         >
-          <Icon source="map-marker-outline" size={24} />
+          <FontAwesomeIcon icon={faStreetView} color="black" size={24} />
         </Button>
       </View>
     </View>
@@ -143,6 +144,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignItems: "center",
+  },
+  markerImage: {
+    width: 20,
+    height: 33,
+  },
+  markerImageLoading: {
+    display: "none",
   },
   markerLabelArea: {
     backgroundColor: "#ffffffcc",
@@ -175,6 +183,10 @@ const styles = StyleSheet.create({
   },
   menuEdgeItem: {
     width: 80,
+  },
+  confirmButtonLabel: {
+    fontSize: 20,
+    color: "black",
   },
 });
 
