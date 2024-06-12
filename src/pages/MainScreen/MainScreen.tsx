@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { Divider } from "react-native-paper";
 
 import { LocationCoords } from "../../models/APIs/deviceLocation";
@@ -19,6 +19,7 @@ const MainScreen = ({ location }: Props) => {
   const { setInfo } = useLoadingStore();
   const [locationData, setLocationData] = useState<LocationData | undefined>();
   const [selectedHour, setSelectedHour] = useState(0);
+  const [error, setError] = useState(false);
 
   const getLocationData = async () => {
     setInfo({
@@ -26,9 +27,15 @@ const MainScreen = ({ location }: Props) => {
       mainText: "Loading location's data...",
     });
 
-    setLocationData(await fetchLocationData(location));
-
-    setInfo({ loading: false });
+    try {
+      const data = await fetchLocationData(location);
+      setLocationData(data);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setInfo({ loading: false });
+    }
   };
 
   useEffect(() => {
@@ -36,7 +43,7 @@ const MainScreen = ({ location }: Props) => {
   }, [location.latitude, location.longitude]);
 
   return (
-    <View style={{ display: showMap ? "none" : "flex", borderColor: "red", height: "100%" }}>
+    <View style={{ display: showMap ? "none" : "flex", height: "100%" }}>
       {locationData && (
         <>
           <SummaryPanel locationData={locationData} selectedHour={selectedHour} />
@@ -51,6 +58,27 @@ const MainScreen = ({ location }: Props) => {
 
           <ResultsPanel locationData={locationData} selectedHour={selectedHour} />
         </>
+      )}
+      {error && !locationData && (
+        <View
+          onTouchStart={() => {
+            setError(false);
+            getLocationData();
+          }}
+          style={{
+            display: "flex",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Text>
+            An error has occured and the application is unable to start. Check your internet
+            connection or contact us for support.
+          </Text>
+          <Text>Tap to try again.</Text>
+        </View>
       )}
     </View>
   );

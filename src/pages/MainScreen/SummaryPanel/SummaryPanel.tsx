@@ -14,6 +14,8 @@ interface Props {
 const SummaryPanel = ({ locationData, selectedHour }: Props) => {
   const [selectedDay, setSelectedDay] = useState<number>(0);
 
+  const locationName = [locationData.locality, locationData.country].filter(Boolean).join(", ");
+
   useEffect(() => {
     setSelectedDay(Math.floor(selectedHour / 24));
   }, [selectedHour]);
@@ -63,7 +65,9 @@ const SummaryPanel = ({ locationData, selectedHour }: Props) => {
 
       <View style={styles.containerCenter}>
         {/* display currently selected date */}
-        <Text style={[styles.addressText, styles.text]}>{locationData.address.join(", ")}</Text>
+        <Text style={[styles.addressText, styles.text]}>
+          {locationName !== "" ? locationName : "Unknown location"}
+        </Text>
         <Text style={[styles.dayNameText, styles.text]}>
           {dateToUserTimeZone(locationData.weather.hourly.time[selectedHour])?.toFormat("EEEE")}
         </Text>
@@ -85,9 +89,6 @@ const SummaryPanel = ({ locationData, selectedHour }: Props) => {
             {getTimeFromNow(locationData.weather, selectedHour)}
           </Text>
         </View>
-
-        {/* space filler */}
-        {/* <View style={styles.dataPairs}></View> */}
 
         {/* display currently selected weather sunset, sunrise... */}
         <View style={styles.dataPairs}>

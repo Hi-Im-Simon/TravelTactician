@@ -23,3 +23,10 @@ export interface GeolocationAddressComponent {
   short_name: string;
   types: string[];
 }
+
+export interface GeolocationData {
+  countryCode?: string;
+  country?: string;
+  locality?: string;
+  postalCode?: string;
+}

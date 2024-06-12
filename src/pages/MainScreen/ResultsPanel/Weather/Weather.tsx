@@ -44,30 +44,44 @@ const Weather = ({ locationData, selectedHour, setTabSwipeEnabled }: Props) => {
     for (let i: number = selectedHour; i < selectedHour + selectedLength; i++) {
       // iterate over all elements that are supposed to be counted
       const hour = dateToUserTimeZone(locationData.weather.hourly.time[i])?.get("hour");
+      const timeUnix = dateToUserTimeZone(locationData.weather.hourly.time[i])?.toUnixInteger();
+      const sunriseUnix = dateToUserTimeZone(
+        locationData.weather.daily.sunrise[i]
+      )?.toUnixInteger();
+      const sunsetUnix = dateToUserTimeZone(locationData.weather.daily.sunset[i])?.toUnixInteger();
 
-      if (hour !== undefined && 8 < hour && hour <= 18) {
-        const code = locationData.weather.hourly.weathercode[i];
-        const temp = locationData.weather.hourly.temperature_2m[i];
-        const wind = locationData.weather.hourly.windspeed_10m[i];
-        if (code !== undefined && temp !== undefined && wind !== undefined) {
-          nDayHours++;
-          weatherCodesDay.add(code);
-          sumTempDay += temp;
-          minTempDay = Math.min(minTempDay, temp);
-          maxTempDay = Math.max(maxTempDay, temp);
-          maxWindDay = Math.max(maxWindDay, wind);
+      if (hour) {
+        let isDay: boolean;
+        if (timeUnix && sunriseUnix && sunsetUnix) {
+          isDay = timeUnix >= sunriseUnix && timeUnix <= sunsetUnix;
+        } else {
+          isDay = 7 < hour && hour <= 19;
         }
-      } else {
-        const code = locationData.weather.hourly.weathercode[i];
-        const temp = locationData.weather.hourly.temperature_2m[i];
-        const wind = locationData.weather.hourly.windspeed_10m[i];
-        if (code !== undefined && temp !== undefined && wind !== undefined) {
-          nNightHours++;
-          weatherCodesNight.add(code);
-          sumTempNight += temp;
-          minTempNight = Math.min(minTempNight, temp);
-          maxTempNight = Math.max(maxTempNight, temp);
-          maxWindNight = Math.max(maxWindNight, wind);
+
+        if (isDay) {
+          const code = locationData.weather.hourly.weathercode[i];
+          const temp = locationData.weather.hourly.temperature_2m[i];
+          const wind = locationData.weather.hourly.windspeed_10m[i];
+          if (code !== undefined && temp !== undefined && wind !== undefined) {
+            nDayHours++;
+            weatherCodesDay.add(code);
+            sumTempDay += temp;
+            minTempDay = Math.min(minTempDay, temp);
+            maxTempDay = Math.max(maxTempDay, temp);
+            maxWindDay = Math.max(maxWindDay, wind);
+          }
+        } else {
+          const code = locationData.weather.hourly.weathercode[i];
+          const temp = locationData.weather.hourly.temperature_2m[i];
+          const wind = locationData.weather.hourly.windspeed_10m[i];
+          if (code !== undefined && temp !== undefined && wind !== undefined) {
+            nNightHours++;
+            weatherCodesNight.add(code);
+            sumTempNight += temp;
+            minTempNight = Math.min(minTempNight, temp);
+            maxTempNight = Math.max(maxTempNight, temp);
+            maxWindNight = Math.max(maxWindNight, wind);
+          }
         }
       }
     }
@@ -373,12 +387,12 @@ const Weather = ({ locationData, selectedHour, setTabSwipeEnabled }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  section: {
-    padding: 10,
-  },
   scrollView: {
     alignSelf: "stretch",
     overflow: "scroll",
+  },
+  section: {
+    padding: 10,
   },
   basicInfoTextTitle: {
     fontSize: 16,

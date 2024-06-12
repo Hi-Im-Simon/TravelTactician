@@ -9,6 +9,7 @@ import { getLocation } from "../../utils/APIs/local/getLocation";
 import { useLocationStore, useMapStore } from "../../utils/zustand";
 import getLocationAddress from "../../utils/APIs/external/getLocationAddress";
 import { faMapMarkerAlt, faTimes, faStreetView } from "@fortawesome/free-solid-svg-icons";
+import { GeolocationData } from "../../models/APIs/googleGeocoding";
 
 const DEFAULT_ZOOM = 20;
 const DEFAULT_ZOOM_WITH_LOCATION = 3;
@@ -24,8 +25,7 @@ const MapScreen = ({ location, setLocation }: Props) => {
   const { locationPermission } = useLocationStore();
   const { toggleMap } = useMapStore();
   const [selectedLocation, setSelectedLocation] = useState<LocationCoords | undefined>(location);
-  const [address, setAddress] = useState<string[]>();
-  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const [address, setAddress] = useState<GeolocationData>();
   const mapRef = useRef<MapView>(null);
 
   const handleMapClick = (e: MapPressEvent | PoiClickEvent) => {
@@ -69,11 +69,13 @@ const MapScreen = ({ location, setLocation }: Props) => {
             <View style={styles.markerArea}>
               {address && (
                 <View style={styles.markerLabelArea}>
-                  {address.map((name, index) => (
-                    <Text key={index} style={styles.markerLabelText}>
-                      {name}
+                  {address.country || address.locality ? (
+                    <Text style={styles.markerLabelText}>
+                      {[address.locality, address.country].filter(Boolean).join(",\n")}
                     </Text>
-                  ))}
+                  ) : (
+                    <Text style={styles.markerLabelText}>Unknown location</Text>
+                  )}
                 </View>
               )}
               <FontAwesomeIcon icon={faMapMarkerAlt} color="#e64b3b" size={30} />

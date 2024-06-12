@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image, BackHandler } from "react-native";
 import { requestForegroundPermissionsAsync } from "expo-location";
 
 import MainScreen from "./MainScreen/MainScreen";
@@ -39,7 +39,16 @@ const Main = () => {
   };
 
   useEffect(() => {
+    const backButtonHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      toggleMap();
+      return true;
+    });
+
     tryGetLocationPermission();
+
+    return () => {
+      backButtonHandler.remove();
+    };
   }, []);
 
   return (
