@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Slider from "@react-native-community/slider";
 
-import { WeatherData } from "../../../models/APIs/openmeteo";
-import { useMapStore } from "../../../utils/zustand";
+import { WeatherData } from "../../../../models/APIs/openmeteo";
+import { useMapStore } from "../../../../utils/zustand";
 
 const DEFAULT_SLIDER_VALUE = 3;
 
@@ -100,9 +100,10 @@ const LengthSelection = ({ weather, selectedHour, selectedLength, setSelectedLen
         const days = Math.floor(nHours / 24);
         const hours = nHours % 24;
         setPeriodWarningMsg(
-          `Selected period exceeds available forecast.\nUsing max available (${
-            days ? `${days}d` : ""
-          }${days && hours ? " " : ""}${hours ? `${hours}h` : ""}) instead.`
+          `Selected period exceeds available forecast.`
+          // `Selected period exceeds available forecast.\nUsing max available (${
+          //   days ? `${days}d` : ""
+          // }${days && hours ? " " : ""}${hours ? `${hours}h` : ""}) instead.`
         );
       }
     } else {
@@ -157,7 +158,6 @@ const LengthSelection = ({ weather, selectedHour, selectedLength, setSelectedLen
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     alignItems: "center",
   },
   sliderTextAll: {

@@ -2,27 +2,17 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { Divider } from "react-native-paper";
 
 import { WeatherData } from "../../../models/APIs/openmeteo";
 import TimeSelectionCell from "./TimeSelectionCell";
-import LengthSelection from "./LengthSelection";
 
 interface Props {
   weather: WeatherData;
   selectedHour: number;
   setSelectedHour: Dispatch<SetStateAction<number>>;
-  selectedLength: number;
-  setSelectedLength: Dispatch<SetStateAction<number>>;
 }
 
-const TimeSelection = ({
-  weather,
-  selectedHour,
-  setSelectedHour,
-  selectedLength,
-  setSelectedLength,
-}: Props) => {
+const TimeSelection = ({ weather, selectedHour, setSelectedHour }: Props) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   const scrollToCell = (i: number, animatedScroll: boolean = true) => {
@@ -93,17 +83,6 @@ const TimeSelection = ({
           })}
         </ScrollView>
       </MaskedView>
-
-      <Divider bold />
-
-      <LengthSelection
-        weather={weather}
-        selectedHour={selectedHour}
-        selectedLength={selectedLength}
-        setSelectedLength={setSelectedLength}
-      />
-
-      <Divider bold />
     </View>
   );
 };

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { Divider } from "react-native-paper";
 
 import { LocationCoords } from "../../models/APIs/deviceLocation";
-import TimeSelectionPanel from "./WeatherPanel/WeatherPanel";
+import SummaryPanel from "./SummaryPanel/SummaryPanel";
 import TimeSelection from "./TimeSelectionPanel/TimeSelectionPanel";
 import { useLoadingStore, useMapStore } from "../../utils/zustand";
-import ResultsPanel from "./ResultsPanel/ResultsPanel";
 import fetchLocationData from "../../utils/APIs/external/fetchLocationData";
 import { LocationData } from "../../models/locationData";
+import ResultsPanel from "./ResultsPanel/ResultsPanel";
 
 interface Props {
   location: LocationCoords;
@@ -18,7 +19,6 @@ const MainScreen = ({ location }: Props) => {
   const { setInfo } = useLoadingStore();
   const [locationData, setLocationData] = useState<LocationData | undefined>();
   const [selectedHour, setSelectedHour] = useState(0);
-  const [selectedLength, setSelectedLength] = useState(3);
 
   const getLocationData = async () => {
     setInfo({
@@ -39,21 +39,17 @@ const MainScreen = ({ location }: Props) => {
     <View style={{ display: showMap ? "none" : "flex", borderColor: "red", height: "100%" }}>
       {locationData && (
         <>
-          <TimeSelectionPanel locationData={locationData} selectedHour={selectedHour} />
+          <SummaryPanel locationData={locationData} selectedHour={selectedHour} />
 
           <TimeSelection
             weather={locationData.weather}
             selectedHour={selectedHour}
             setSelectedHour={setSelectedHour}
-            selectedLength={selectedLength}
-            setSelectedLength={setSelectedLength}
           />
 
-          <ResultsPanel
-            locationData={locationData}
-            selectedHour={selectedHour}
-            selectedLength={selectedLength}
-          />
+          <Divider bold />
+
+          <ResultsPanel locationData={locationData} selectedHour={selectedHour} />
         </>
       )}
     </View>
