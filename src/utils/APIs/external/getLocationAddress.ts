@@ -21,7 +21,7 @@ const getLocationAddress = async (
 
         for (const result of json.results) {
           const addressParts = getAddress(result.address_components);
-          if (Object.keys(addressParts).length) {
+          if (addressParts.country || addressParts.locality) {
             resolve(addressParts);
             return;
           }
